@@ -1,3 +1,6 @@
+import json
+
+
 class Question:
     def __init__(self,question_id,name,platform,link,practiced=0,last_practiced="",topic="General"):
         self.question_id = question_id
@@ -34,6 +37,22 @@ class Question:
     
 question = Question(question_id=1, name="Two Sum", platform="LeetCode",
                      link="https://leetcode.com/problems/two-sum/", topic="Array")
+
+class QuestionStore:
+    def __init__(self,filename = "coding_tracker.json"):
+        self.filename = filename
+        self.questions =[]
+        self.load()
+
+    def load(self):
+        with open(self.filename,"r") as file:
+            raw_data = json.load(file)
+        
+        self.questions =[]
+        for item in raw_data:
+            question =Question.from_dict(item)
+            self.questions.append(question)
+
 
 data = question.to_dict()
 print(data)
